@@ -1,21 +1,21 @@
 node {
-    stage('SCM') {
+    stage 'SCM' {
         git 'https://github.com/KingYL/progress_course.git'
     }
-    stage('QA') {
+    stage 'QA' {
         sh 'sonar-scanner'
     }
-    stage('build') {
+    stage 'build' {
         def mvnHome = tool 'M3'
         sh "${mvnHome}/bin/mvn -B clean package"
     }
-    stage('deploy') {
+    stage 'deploy' {
         sh "docker stop my || true"
         sh "docker rm my || true"
         sh "docker run --name my -p 11111:8080 -d tomcat"
         sh "docker cp target/MavenDemo.war my:/usr/local/tomcat/webapps"
     }
-    stage('results') {
+    stage 'results' {
         archiveArtifacts artifacts: '**/target/*.war', fingerprint: true
     }
 }
