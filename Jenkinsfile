@@ -3,7 +3,7 @@ node {
         git 'https://github.com/KingYL/progress_course.git'
     }
     stage('QA') {
-        sh 'sonar-scanner'
+        sh 'sonar-scanner -X'
     }
     stage('build') {
         def mvnHome = tool 'M3'
